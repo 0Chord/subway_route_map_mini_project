@@ -665,4 +665,3 @@ subway_location_name = {
     "신촌(경의중앙)": 642
 }
 
-print(subway_location_name["문래"])
