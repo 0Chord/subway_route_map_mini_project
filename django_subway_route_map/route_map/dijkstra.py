@@ -25,6 +25,3 @@ def dijkstra(start: str, end: str) -> int:
     return distance[end_idx]
 
 
-if __name__ == "__main__":
-    result = dijkstra('안산', '금정')
-    print(result)
