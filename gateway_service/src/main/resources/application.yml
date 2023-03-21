@@ -24,8 +24,11 @@ spring:
             allowCredentials: true
             allowedHeaders:
               - x-requested-with
+              - authorization
               - content-type
               - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
             allowedMethods:
               - POST
               - GET
@@ -41,3 +44,11 @@ spring:
             - Method=POST,GET,DELETE,OPTIONS
           filters:
             - RewritePath=/map-service/(?<segment>.*), /$\{segment}
+
+        - id: route-map-service
+          uri: lb://route-map-service
+          predicates:
+            - Path=/route-map-service/**
+            - Method=GET,POST,OPTIONS
+          filters:
+            - RewritePath=/route-map-service/(?<segment>.*), /$\{segment}
