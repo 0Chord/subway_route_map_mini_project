@@ -45,10 +45,10 @@ spring:
           filters:
             - RewritePath=/map-service/(?<segment>.*), /$\{segment}
 
-        - id: route-map-service
-          uri: lb://route-map-service
+        - id: routing-service
+          uri: lb://ROUTING-SERVICE
           predicates:
-            - Path=/route-map-service/**
+            - Path=/routing-service/**
             - Method=GET,POST,OPTIONS
           filters:
-            - RewritePath=/route-map-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/routing-service/(?<segment>.*), /$\{segment}

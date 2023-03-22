@@ -10,19 +10,21 @@ from route_map.dijkstra import dijkstra
 rest_port = 8050
 
 eureka_client.init(eureka_server="http://localhost:8761/eureka",
-                   app_name="route-map-service",
+                   app_name="routing-service",
                    instance_port=rest_port)
 app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/route_map', methods=['GET'])
+@app.route('/route-map', methods=['POST'])
 ## flask에서 get 방식 parameter 요청 방법
 def route_map():
     try:
-        start = request.args.get('start_station')
-        end = request.args.get('end_station')
-        result = dijkstra(start, end)
+        data = request.get_json()
+        start_station = data['start_station'][0]
+        end_station = data['end_station'][0]
+        print(start_station, end_station)
+        result = dijkstra(start_station, end_station)
         return jsonify(result)
     except KeyError:
         return jsonify('KeyError')
