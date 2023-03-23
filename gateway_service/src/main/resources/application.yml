@@ -52,3 +52,11 @@ spring:
             - Method=GET,POST,OPTIONS
           filters:
             - RewritePath=/routing-service/(?<segment>.*), /$\{segment}
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+            - Method=POST,GET,DELETE,OPTIONS
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
