@@ -1,25 +1,33 @@
 package subway_route_map_mini_project.user_service.controller;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.MessagingException;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import subway_route_map_mini_project.user_service.domain.MailAuth;
 import subway_route_map_mini_project.user_service.domain.User;
+import subway_route_map_mini_project.user_service.dto.EmailDto;
 import subway_route_map_mini_project.user_service.dto.JoinDto;
 import subway_route_map_mini_project.user_service.service.MailAuthService;
+import subway_route_map_mini_project.user_service.service.MailService;
 import subway_route_map_mini_project.user_service.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/signup")
 public class SignupController {
 	private final UserService userService;
 	private final MailAuthService mailAuthService;
+	private final MailService mailService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@PostMapping("/join")
@@ -36,9 +44,13 @@ public class SignupController {
 		return "SuccessJoinUser";
 	}
 
-	@GetMapping("/test")
-	public void test(){
-		System.out.println("testtesttesttest");
+	@PostMapping("/post-auth-mail")
+	public String postAuthMail(EmailDto emailDto) throws MessagingException, UnsupportedEncodingException {
+		System.out.println("emailDto = " + emailDto);
+		String code = mailService.sendEmail(emailDto.getEmail());
+		MailAuth mailAuth = MailAuth.builder().email(emailDto.getEmail()).authCode(code).build();
+		mailAuthService.save(mailAuth);
+		return "SUCCESS";
 	}
 
 }

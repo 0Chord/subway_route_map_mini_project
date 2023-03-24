@@ -35,6 +35,6 @@ public class SubwayController {
 		String entityBody = entity.getBody();
 		System.out.println("entityBody = " + entityBody);
 		return entityBody;
-
 	}
+
 }
