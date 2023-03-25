@@ -18,4 +18,8 @@ public class MailAuthService {
 	public void save(MailAuth mailAuth) {
 		mailAuthRepository.save(mailAuth);
 	}
+
+	public MailAuth findByEmail(String email){
+		return mailAuthRepository.findByEmail(email).orElse(null);
+	}
 }

@@ -1,6 +1,7 @@
 package subway_route_map_mini_project.user_service.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Objects;
 
 import javax.mail.MessagingException;
 
@@ -16,6 +17,7 @@ import subway_route_map_mini_project.user_service.domain.MailAuth;
 import subway_route_map_mini_project.user_service.domain.User;
 import subway_route_map_mini_project.user_service.dto.EmailDto;
 import subway_route_map_mini_project.user_service.dto.JoinDto;
+import subway_route_map_mini_project.user_service.dto.MailAuthDto;
 import subway_route_map_mini_project.user_service.service.MailAuthService;
 import subway_route_map_mini_project.user_service.service.MailService;
 import subway_route_map_mini_project.user_service.service.UserService;
@@ -51,6 +53,18 @@ public class SignupController {
 		MailAuth mailAuth = MailAuth.builder().email(emailDto.getEmail()).authCode(code).build();
 		mailAuthService.save(mailAuth);
 		return "SUCCESS";
+	}
+
+	@PostMapping("/confirm-mail")
+	public String confirm(@Validated MailAuthDto mailAuthDto) {
+		MailAuth mailAuth = mailAuthService.findByEmail(mailAuthDto.getEmail());
+		if (mailAuth == null) {
+			return "NoExistsMailAuthCode";
+		} else if (Objects.equals(mailAuth.getAuthCode(), mailAuthDto.getAuthCode())) {
+			userService.updateIsAuth(mailAuth.getEmail(), true);
+			return "SuccessAuthMail";
+		}
+		return "ThisIsWrongCode";
 	}
 
 }
