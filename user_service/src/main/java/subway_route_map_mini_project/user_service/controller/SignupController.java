@@ -34,21 +34,19 @@ public class SignupController {
 
 	@PostMapping("/join")
 	public String signup(@Validated JoinDto joinDto) {
-		System.out.println("joinDto = " + joinDto);
 		User user = userService.findByEmail(joinDto.getEmail());
 		if (user != null) {
 			return "AlreadyExistsUser";
 		}
 		String encodingPassword = bCryptPasswordEncoder.encode(joinDto.getPassword());
 		User joinUser = User.builder().email(joinDto.getEmail()).password(encodingPassword).isAuth(false).build();
-		System.out.println("joinUser = " + joinUser);
 		userService.join(joinUser);
 		return "SuccessJoinUser";
 	}
 
 	@PostMapping("/post-auth-mail")
 	public String postAuthMail(EmailDto emailDto) throws MessagingException, UnsupportedEncodingException {
-		System.out.println("emailDto = " + emailDto);
+		mailAuthService.deleteByEmail(emailDto.getEmail());
 		String code = mailService.sendEmail(emailDto.getEmail());
 		MailAuth mailAuth = MailAuth.builder().email(emailDto.getEmail()).authCode(code).build();
 		mailAuthService.save(mailAuth);
@@ -62,6 +60,7 @@ public class SignupController {
 			return "NoExistsMailAuthCode";
 		} else if (Objects.equals(mailAuth.getAuthCode(), mailAuthDto.getAuthCode())) {
 			userService.updateIsAuth(mailAuth.getEmail(), true);
+			mailAuthService.deleteByEmail(mailAuthDto.getEmail());
 			return "SuccessAuthMail";
 		}
 		return "ThisIsWrongCode";

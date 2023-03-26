@@ -45,7 +45,6 @@ public class MailService {
 
 	public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
 		createCode();
-		System.out.println("authNumber = " + authNumber);
 		String setFrom = "kim0208yh@naver.com";
 		String title = "SUBWAY-ROUTING-MAP-SERVICE 회원 가입 인증 번호";
 
@@ -55,7 +54,6 @@ public class MailService {
 		message.setSubject(title);
 		message.setFrom(setFrom);
 		message.setText(setContext(authNumber, email), "utf-8", "html");
-		System.out.println("message = " + message);
 		return message;
 	}
 
