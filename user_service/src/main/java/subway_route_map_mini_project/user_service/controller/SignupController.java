@@ -39,7 +39,9 @@ public class SignupController {
 			return "AlreadyExistsUser";
 		}
 		String encodingPassword = bCryptPasswordEncoder.encode(joinDto.getPassword());
-		User joinUser = User.builder().email(joinDto.getEmail()).password(encodingPassword).isAuth(false).build();
+		User joinUser = User.builder().username(joinDto.getEmail())
+			.password(encodingPassword).isAuth(false)
+			.role("ROLE_USER").build();
 		userService.join(joinUser);
 		return "SuccessJoinUser";
 	}

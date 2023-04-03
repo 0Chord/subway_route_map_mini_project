@@ -10,6 +10,9 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
+token:
+  expiration_time: 86400000
+  secret:
 
 spring:
   application:
@@ -44,6 +47,7 @@ spring:
             - Method=POST,GET,DELETE,OPTIONS
           filters:
             - RewritePath=/map-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: routing-service
           uri: lb://ROUTING-SERVICE

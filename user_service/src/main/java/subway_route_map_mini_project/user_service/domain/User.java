@@ -17,16 +17,21 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String email;
+	private String username;
 	private String password;
 
 	private Boolean isAuth;
+	private String role;
+
 	@Builder
-	public User(String email, String password, Boolean isAuth) {
-		this.email = email;
+	public User(String username, String password, Boolean isAuth, String role) {
+		this.username = username;
 		this.password = password;
 		this.isAuth = isAuth;
+		this.role = role;
 	}
+
+
 
 	public void updatePassword(String password) {
 		this.password = password;
