@@ -30,19 +30,13 @@ public class SignupController {
 	private final UserService userService;
 	private final MailAuthService mailAuthService;
 	private final MailService mailService;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@PostMapping("/join")
 	public String signup(@Validated JoinDto joinDto) {
-		User user = userService.findByEmail(joinDto.getEmail());
-		if (user != null) {
+		if (!userService.findUser(joinDto.getEmail())) {
 			return "AlreadyExistsUser";
 		}
-		String encodingPassword = bCryptPasswordEncoder.encode(joinDto.getPassword());
-		User joinUser = User.builder().username(joinDto.getEmail())
-			.password(encodingPassword).isAuth(false)
-			.role("ROLE_USER").build();
-		userService.join(joinUser);
+		userService.join(joinDto);
 		return "SuccessJoinUser";
 	}
 
@@ -50,22 +44,13 @@ public class SignupController {
 	public String postAuthMail(EmailDto emailDto) throws MessagingException, UnsupportedEncodingException {
 		mailAuthService.deleteByEmail(emailDto.getEmail());
 		String code = mailService.sendEmail(emailDto.getEmail());
-		MailAuth mailAuth = MailAuth.builder().email(emailDto.getEmail()).authCode(code).build();
-		mailAuthService.save(mailAuth);
+		mailAuthService.save(emailDto, code);
 		return "SUCCESS";
 	}
 
 	@PostMapping("/confirm-mail")
-	public String confirm(@Validated MailAuthDto mailAuthDto) {
-		MailAuth mailAuth = mailAuthService.findByEmail(mailAuthDto.getEmail());
-		if (mailAuth == null) {
-			return "NoExistsMailAuthCode";
-		} else if (Objects.equals(mailAuth.getAuthCode(), mailAuthDto.getAuthCode())) {
-			userService.updateIsAuth(mailAuth.getEmail(), true);
-			mailAuthService.deleteByEmail(mailAuthDto.getEmail());
-			return "SuccessAuthMail";
-		}
-		return "ThisIsWrongCode";
+	public Boolean confirm(@Validated MailAuthDto mailAuthDto) {
+		return mailAuthService.confirmMailAuth(mailAuthDto);
 	}
 
 }

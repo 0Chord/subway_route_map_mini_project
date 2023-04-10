@@ -19,21 +19,9 @@ import subway_route_map_mini_project.user_service.service.UserService;
 public class LoginController {
 
 	private final UserService userService;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@PostMapping("/login")
 	public String login(@Validated LoginDto loginDto) {
-		String email = loginDto.getEmail();
-		String password = loginDto.getPassword();
-		User user = userService.findByEmail(email);
-		if (user == null) {
-			return "NoExistsUser";
-		} else if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
-			return "WrongPassword";
-		} else if (!user.getIsAuth()) {
-			return "NoEmailAuth";
-		}
-		return "SUCCESS";
-
+		return userService.login(loginDto);
 	}
 }
