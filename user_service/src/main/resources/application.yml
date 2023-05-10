@@ -10,13 +10,28 @@ spring:
     username: root
     password: 1q2w3e4r!
   jpa:
+    database: mysql
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
+      ddl-auto: update
     show-sql: true
-
+  main:
+    allow-bean-definition-overriding: true
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: kim0208yh@naver.com
+    password: PEZ89BLWGQBZ
+    properties:
+      debug: true
+      mail:
+        smtp:
+          ssl:
+            enable: true
+            #trust: smtp.naver.com
+          starttls:
+            enable: true
+            required: true
+          timeout: 5000
 
 eureka:
   instance:
@@ -26,3 +41,22 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+token:
+  secret: subway_project
+  expiration_time: 86400000
+
+
+#    host: smtp.google.com
+#    port: 587
+#    username: 0chord.mail.tester@gmail.com
+#    password: wnktdxzwznmrazez
+#    properties:
+#      mail:
+#        smtp:
+#          socketFactory:
+#            class: javax.net.ssl.SSLSocketFactory
+#          auth: true
+#          starttls:
+#            enable: true
+#          timeout: 5000

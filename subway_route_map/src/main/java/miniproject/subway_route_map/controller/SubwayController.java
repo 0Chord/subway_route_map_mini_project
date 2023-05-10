@@ -23,7 +23,7 @@ public class SubwayController {
 	private final HttpHeaders httpHeaders;
 
 	@GetMapping("/subway-routing")
-	public String routing(@Validated Station station) {
+	public String routing(@Validated @RequestBody Station station) {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		System.out.println("station = " + station);
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();

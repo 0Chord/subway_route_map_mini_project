@@ -12,7 +12,7 @@ eureka:
 
 token:
   expiration_time: 86400000
-  secret:
+  secret: subway_project
 
 spring:
   application:
@@ -40,6 +40,15 @@ spring:
               - DELETE
               - OPTIONS
       routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path= /user-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: map-service
           uri: lb://MAP-SERVICE
           predicates:
@@ -48,7 +57,6 @@ spring:
           filters:
             - RewritePath=/map-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
-
         - id: routing-service
           uri: lb://ROUTING-SERVICE
           predicates:
@@ -56,7 +64,6 @@ spring:
             - Method=GET,POST,OPTIONS
           filters:
             - RewritePath=/routing-service/(?<segment>.*), /$\{segment}
-
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:

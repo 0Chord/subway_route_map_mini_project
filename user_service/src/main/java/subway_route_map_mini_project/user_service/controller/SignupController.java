@@ -1,20 +1,17 @@
 package subway_route_map_mini_project.user_service.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Objects;
 
 import javax.mail.MessagingException;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import subway_route_map_mini_project.user_service.domain.MailAuth;
-import subway_route_map_mini_project.user_service.domain.User;
 import subway_route_map_mini_project.user_service.dto.EmailDto;
 import subway_route_map_mini_project.user_service.dto.JoinDto;
 import subway_route_map_mini_project.user_service.dto.MailAuthDto;
@@ -32,7 +29,7 @@ public class SignupController {
 	private final MailService mailService;
 
 	@PostMapping("/join")
-	public String signup(@Validated JoinDto joinDto) {
+	public String signup(@Validated @RequestBody JoinDto joinDto) {
 		if (!userService.findUser(joinDto.getEmail())) {
 			return "AlreadyExistsUser";
 		}
@@ -41,7 +38,7 @@ public class SignupController {
 	}
 
 	@PostMapping("/post-auth-mail")
-	public String postAuthMail(EmailDto emailDto) throws MessagingException, UnsupportedEncodingException {
+	public String postAuthMail(@RequestBody EmailDto emailDto) throws MessagingException, UnsupportedEncodingException {
 		mailAuthService.deleteByEmail(emailDto.getEmail());
 		String code = mailService.sendEmail(emailDto.getEmail());
 		mailAuthService.save(emailDto, code);
@@ -49,7 +46,7 @@ public class SignupController {
 	}
 
 	@PostMapping("/confirm-mail")
-	public Boolean confirm(@Validated MailAuthDto mailAuthDto) {
+	public Boolean confirm(@Validated @RequestBody MailAuthDto mailAuthDto) {
 		return mailAuthService.confirmMailAuth(mailAuthDto);
 	}
 
