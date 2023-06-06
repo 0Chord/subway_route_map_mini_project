@@ -28,7 +28,7 @@ function Search() {
         let body = {
             startStation: StartStation,
             endStation: EndStation,
-            token : localStorage.getItem("token")
+            token : localStorage.getItem("accessToken")
         }
         searchStation(body, setStartStationError, setEndStationError, navigate);
     }

@@ -5,6 +5,8 @@ import MailAuth from "./pages/signup/MailAuth";
 import AuthUser from "./pages/searchPassword/AuthUser";
 import UpdatePassword from "./pages/signIn/UpdatePassword";
 import LoginPage from "./pages/login/LoginPage";
+import Search from "./pages/subway/Search";
+import Result from "./pages/subway/Result";
 
 function App() {
     return (
@@ -16,6 +18,8 @@ function App() {
                     <Route exact path={"/signup/mailAuth"} element={<MailAuth/>}/>
                     <Route exact path={"/searchPassword"} element={<AuthUser/>}/>
                     <Route exact path={"/updatePassword"} element={<UpdatePassword/>}/>
+                    <Route exact path={"/search/subway-map"} element={<Search/>}/>
+                    <Route exact path={"/search/result"} element={<Result/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

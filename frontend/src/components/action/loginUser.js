@@ -1,9 +1,5 @@
 import axios from "axios";
 
-const clearFunc = () => {
-  window.location.reload();
-};
-
 export async function loginUser(
   data,
   setEmailError,
@@ -13,7 +9,6 @@ export async function loginUser(
   await axios
     .post("/user-service/login", data)
     .then((response) => {
-      console.log(response.data);
       setEmailError("");
       setPasswordError("");
       if (response.data === "NotFoundUser") {
@@ -25,13 +20,9 @@ export async function loginUser(
       } else if (response.data === "NotEmailAuthUser") {
         history("/signup/mailAuth", { state: { email: data.email } });
       }
-      const accessToken = response.data["accessToken"];
-      const refreshToken = response.data["refreshToken"];
+      const accessToken = response.headers.get("accessToken");
       localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-
-
-      clearFunc();
+      history("/search/subway-map");
     })
     .catch((error) => console.log(error));
 }

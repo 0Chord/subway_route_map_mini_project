@@ -1,32 +1,24 @@
 import axios from "axios";
-
-const clearFunc = () => {
-  window.location.reload();
-};
+import header from "../instance/Header";
 
 export async function searchStation(
-  data,
-  setStartStationError,
-  setEndStationError,
-  history
+    data,
+    setStartStationError,
+    setEndStationError,
+    history
 ) {
-  await axios
-    .post("/map-service/subway-routing", data)
-    .then((response) => {
-      console.log(response.data);
-      setStartStationError("");
-      setEndStationError("");
-      if (response.data === "NotFoundStation") {
-        setStartStationError("사용자를 찾을 수 없습니다.");
-        history("/");
-      }
-      const accessToken = response.data["accessToken"];
-      const refreshToken = response.data["refreshToken"];
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+    await axios
+        .post("/map-service/subway-routing", data, {headers: header(localStorage.getItem("accessToken"))})
+        .then((response) => {
+            console.log(response.data);
+            setStartStationError("");
+            setEndStationError("");
+            if (response.data === "KeyError") {
+                setStartStationError("지하철 역을 찾을 수 없습니다.");
+                return history("/search/subway-map");
+            }
 
-
-      clearFunc();
-    })
-    .catch((error) => console.log(error));
+            history("/search/result", {state: {result: response.data}});
+        })
+        .catch((error) => console.log(error));
 }
