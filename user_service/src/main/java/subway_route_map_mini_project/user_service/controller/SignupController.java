@@ -34,7 +34,7 @@ public class SignupController {
 			return "AlreadyExistsUser";
 		}
 		userService.join(joinDto);
-		return "SuccessJoinUser";
+		return "SUCCESS";
 	}
 
 	@PostMapping("/post-auth-mail")
