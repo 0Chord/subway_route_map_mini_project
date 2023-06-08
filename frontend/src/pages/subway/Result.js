@@ -9,11 +9,16 @@ function Result() {
     let location = useLocation();
 
     const [Result, setResult] = useState("");
+    const [Hour, setHour] = useState("");
+    const [Minute, setMinute] = useState("");
 
     useEffect(() => {
-
         const result = parseInt(parseInt(location.state.result.toString()) / 60);
+        const hour = parseInt(result / 60)
+        const minute = result - hour * 60;
         setResult(result);
+        setHour(hour);
+        setMinute(minute);
         console.log(result);
     }, [])
 
@@ -22,10 +27,17 @@ function Result() {
         <div className={"contentsWrap"}>
             <div className={"loginWindow"}>
                 <img src={logo} alt={React}/>
-                <input type="text" value={Result}
+                <input type="text" value={"                   "+Hour + "시간 "+Minute + "분"}
                        className={"inlineToBlock"} readOnly/>
+                <Link to={"/search/subway-map"}>
+                    <button formAction="" className=" ordinaryLogin activatedLoginColor">
+                        검색하러가기
+                    </button>
+                </Link>
             </div>
+
         </div>
+
     )
 }
 
