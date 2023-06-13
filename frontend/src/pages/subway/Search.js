@@ -3,7 +3,7 @@ import {searchStation} from "../../components/action/searchStation";
 import {useNavigate, Link} from "react-router-dom";
 import "./Home.css"
 import "./login.css"
-import logo from "../../assets/img/instagramLogo.png"
+import mark from "../../assets/img/mark.jpg"
 
 function Search() {
     const [StartStation, setStartStation] = useState("");
@@ -36,7 +36,7 @@ function Search() {
         <div className={"contentsWrap"}>
             <form onSubmit={onSubmitHandler}>
                 <div className={"loginWindow"}>
-                    <img src={logo} alt={React}/>
+                    <img src={mark} alt={React}/>
                     <input type="text" value={StartStation} onChange={onStartStationHandler} placeholder={"출발역"}
                            className={"inlineToBlock"}/>
                     <span className="field-error">{StartStationError}</span>

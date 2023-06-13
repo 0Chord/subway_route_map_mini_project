@@ -5,8 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import "../../assets/css/login.css"
 import "../../assets/css/signup.css"
 import "../../assets/css/main.css"
-import logo from "../../assets/img/instagramLogo.png"
-
+import mark from "../../assets/img/mark.jpg"
 function Signup() {
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
@@ -57,7 +56,7 @@ function Signup() {
         <div className={"contentsWrap"}>
             <form onSubmit={onSubmitHandler}>
                 <div className={"loginWindow"}>
-                    <img src={logo} alt=""/>
+                    <img src={mark} alt=""/>
                     <h2 className="font_color">친구들의 사진과 동영상을 보려면 가입하세요.</h2>
                     <input type="email" value={Email} onChange={onEmailHandler} placeholder={"이메일 주소"}
                            className="inlineToBlock"/>

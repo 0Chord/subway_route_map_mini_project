@@ -4,6 +4,7 @@ import {useNavigate, Link} from "react-router-dom";
 import "./Home.css"
 import "./login.css"
 import logo from "../../assets/img/instagramLogo.png"
+import mark from "../../assets/img/mark.jpg"
 
 function LoginPage() {
     const [Email, setEmail] = useState("");
@@ -35,7 +36,7 @@ function LoginPage() {
         <div className={"contentsWrap"}>
             <form onSubmit={onSubmitHandler}>
                 <div className={"loginWindow"}>
-                    <img src={logo} alt={React}/>
+                    <img src={mark} alt={React}/>
                     <input type="email" value={Email} onChange={onEmailHandler} placeholder={"이메일"}
                            className={"inlineToBlock"}/>
                     <span className="field-error">{EmailError}</span>

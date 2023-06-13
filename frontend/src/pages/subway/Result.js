@@ -2,8 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useLocation, useNavigate, Link} from "react-router-dom";
 import "./Home.css"
 import "./login.css"
-import logo from "../../assets/img/instagramLogo.png"
-import axios from "axios";
+import mark from "../../assets/img/mark.jpg"
 
 function Result() {
     let location = useLocation();
@@ -26,7 +25,7 @@ function Result() {
     return (
         <div className={"contentsWrap"}>
             <div className={"loginWindow"}>
-                <img src={logo} alt={React}/>
+                <img src={mark} alt={React}/>
                 <input type="text" value={"                   "+Hour + "시간 "+Minute + "분"}
                        className={"inlineToBlock"} readOnly/>
                 <Link to={"/search/subway-map"}>
