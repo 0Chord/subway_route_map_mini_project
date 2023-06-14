@@ -57,7 +57,6 @@ function Signup() {
             <form onSubmit={onSubmitHandler}>
                 <div className={"loginWindow"}>
                     <img src={mark} alt=""/>
-                    <h2 className="font_color">친구들의 사진과 동영상을 보려면 가입하세요.</h2>
                     <input type="email" value={Email} onChange={onEmailHandler} placeholder={"이메일 주소"}
                            className="inlineToBlock"/>
                     <span className={"field-error"}>{EmailError}</span>

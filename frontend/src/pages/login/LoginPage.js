@@ -3,7 +3,6 @@ import {loginUser} from "../../components/action/loginUser";
 import {useNavigate, Link} from "react-router-dom";
 import "./Home.css"
 import "./login.css"
-import logo from "../../assets/img/instagramLogo.png"
 import mark from "../../assets/img/mark.jpg"
 
 function LoginPage() {
